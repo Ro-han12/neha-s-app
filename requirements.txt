@@ -1,0 +1,11 @@
+crewai
+streamlit
+google-generativeai
+python-dotenv
+PyPDF2
+fpdf
+beautifulsoup4
+requests
+nltk
+langchain-google-genai
+reportlab
