@@ -104,7 +104,8 @@ if st.button("Generate Blog"):
                 Industry/Domain: {industry}
                 Blog Type: {blog_type}
                 Content Goal: {content_goal}""",
-                agent=research_agent
+                agent=research_agent,
+                expected_output="A detailed research report containing key information, facts, and data points about the topic."
             )
 
             nlp_task = Task(
@@ -115,7 +116,8 @@ if st.button("Generate Blog"):
                 - Industry/Domain: {industry}
                 - Blog Type: {blog_type}
                 - Content Goal: {content_goal}""",
-                agent=nlp_agent
+                agent=nlp_agent,
+                expected_output="An analyzed and processed version of the research data, optimized for the target audience and content goals."
             )
 
             writing_task = Task(
@@ -128,7 +130,8 @@ if st.button("Generate Blog"):
                 - Content Goal: {content_goal}
                 - Word Limit: {word_limit} words (strictly adhere to this range)
                 Ensure the content is well-structured and meets the specified requirements.""",
-                agent=writer_agent
+                agent=writer_agent,
+                expected_output="A complete, well-structured blog post that meets all specified requirements and guidelines."
             )
 
             # Create and run the crew
