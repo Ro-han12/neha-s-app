@@ -10,6 +10,28 @@ import time
 import chardet
 import io
 import sys
+
+# SQLite compatibility fix for ChromaDB
+try:
+    import pysqlite3
+    sys.modules['sqlite3'] = pysqlite3
+except ImportError:
+    try:
+        import pysqlite3_binary
+        sys.modules['sqlite3'] = pysqlite3_binary
+    except ImportError:
+        # If pysqlite3 is not available, try to install it
+        import subprocess
+        import sys
+        try:
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pysqlite3-binary'])
+            import pysqlite3_binary
+            sys.modules['sqlite3'] = pysqlite3_binary
+        except:
+            # If all else fails, continue with system sqlite3
+            pass
+
+# Now import crewai and other dependencies
 from crewai import Crew, Task
 from PyPDF2 import PdfWriter, PdfReader
 from reportlab.lib.pagesizes import letter
