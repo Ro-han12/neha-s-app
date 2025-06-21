@@ -26,6 +26,20 @@ except ImportError:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+# Additional path setup for deployment environments
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+
+# Add multiple possible paths
+sys.path.insert(0, current_dir)
+sys.path.insert(0, parent_dir)
+sys.path.insert(0, os.path.join(parent_dir, 'Merge'))
+
+# Debug: Print current Python path for troubleshooting
+print(f"Python path: {sys.path[:3]}...")
+print(f"Current directory: {current_dir}")
+print(f"Parent directory: {parent_dir}")
+
 from crewai import Crew, Task
 from PyPDF2 import PdfWriter, PdfReader
 from reportlab.lib.pagesizes import letter
@@ -37,8 +51,9 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import re
 
-# Import custom modules with error handling
+# Import custom modules with error handling and multiple fallback strategies
 try:
+    # Try direct import first
     from Blog.agents import BlogAgents
     from whitepaper.main import ResearchConverter
     from whitepaper.tools import ResearchTools
@@ -46,10 +61,66 @@ try:
     from whitepaper.tasks import ResearchTasks
     from whitepaper.crews import ResearchCrews
     from whitepaper.exporters import ContentExporters
+    print("✓ All modules imported successfully")
 except ImportError as e:
-    st.error(f"Failed to import required modules: {str(e)}")
-    st.error("Please ensure all required packages are installed and the module structure is correct.")
-    st.stop()
+    print(f"First import attempt failed: {e}")
+    try:
+        # Try with explicit path
+        import importlib.util
+        
+        # Import Blog.agents
+        blog_agents_path = os.path.join(current_dir, 'Blog', 'agents.py')
+        spec = importlib.util.spec_from_file_location("BlogAgents", blog_agents_path)
+        blog_agents_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(blog_agents_module)
+        BlogAgents = blog_agents_module.BlogAgents
+        
+        # Import whitepaper modules
+        whitepaper_main_path = os.path.join(current_dir, 'whitepaper', 'main.py')
+        spec = importlib.util.spec_from_file_location("ResearchConverter", whitepaper_main_path)
+        whitepaper_main_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(whitepaper_main_module)
+        ResearchConverter = whitepaper_main_module.ResearchConverter
+        
+        # Import other whitepaper modules
+        whitepaper_tools_path = os.path.join(current_dir, 'whitepaper', 'tools.py')
+        spec = importlib.util.spec_from_file_location("ResearchTools", whitepaper_tools_path)
+        whitepaper_tools_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(whitepaper_tools_module)
+        ResearchTools = whitepaper_tools_module.ResearchTools
+        
+        whitepaper_agents_path = os.path.join(current_dir, 'whitepaper', 'agents.py')
+        spec = importlib.util.spec_from_file_location("ResearchAgents", whitepaper_agents_path)
+        whitepaper_agents_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(whitepaper_agents_module)
+        ResearchAgents = whitepaper_agents_module.ResearchAgents
+        
+        whitepaper_tasks_path = os.path.join(current_dir, 'whitepaper', 'tasks.py')
+        spec = importlib.util.spec_from_file_location("ResearchTasks", whitepaper_tasks_path)
+        whitepaper_tasks_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(whitepaper_tasks_module)
+        ResearchTasks = whitepaper_tasks_module.ResearchTasks
+        
+        whitepaper_crews_path = os.path.join(current_dir, 'whitepaper', 'crews.py')
+        spec = importlib.util.spec_from_file_location("ResearchCrews", whitepaper_crews_path)
+        whitepaper_crews_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(whitepaper_crews_module)
+        ResearchCrews = whitepaper_crews_module.ResearchCrews
+        
+        whitepaper_exporters_path = os.path.join(current_dir, 'whitepaper', 'exporters.py')
+        spec = importlib.util.spec_from_file_location("ContentExporters", whitepaper_exporters_path)
+        whitepaper_exporters_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(whitepaper_exporters_module)
+        ContentExporters = whitepaper_exporters_module.ContentExporters
+        
+        print("✓ All modules imported successfully using fallback method")
+    except Exception as e2:
+        st.error(f"Failed to import required modules: {str(e)}")
+        st.error(f"Fallback import also failed: {str(e2)}")
+        st.error("Please ensure all required packages are installed and the module structure is correct.")
+        st.error(f"Current directory: {current_dir}")
+        st.error(f"Python path: {sys.path[:3]}...")
+        st.stop()
 
 # Load environment variables
 load_dotenv()
