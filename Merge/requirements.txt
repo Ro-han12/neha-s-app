@@ -31,8 +31,8 @@ typing-extensions==4.14.0
 pydantic==2.11.5
 pycryptodome==3.23.0
 
-# SQLite compatibility for ChromaDB
-pysqlite3-binary==0.5.2
+# # SQLite compatibility for ChromaDB
+# pysqlite3-binary==0.5.2
 
 # Dependencies for chromadb compatibility
 numpy==1.24.3              # Pinned to version before NumPy 2.0
