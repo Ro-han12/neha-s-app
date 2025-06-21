@@ -15,6 +15,7 @@ google-generativeai==0.3.2
 pypdf==3.11.0               # ✅ Bumped from 3.9.1 → required by embedchain
 fpdf==1.7.2
 PyPDF2==3.0.1  
+reportlab==4.0.9  
 
 # Streamlit and Markdown
 streamlit==1.32.0
