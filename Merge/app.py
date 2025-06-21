@@ -1,6 +1,11 @@
 import streamlit as st
 import os
+
+# ChromaDB configuration - MUST be set before any other imports
 os.environ["CHROMA_DB_IMPL"] = "duckdb"
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
+os.environ["CHROMA_TELEMETRY_ENABLED"] = "False"
+
 import tempfile
 import base64
 from pathlib import Path

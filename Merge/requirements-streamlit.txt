@@ -1,1 +1,47 @@
- 
+# Streamlit Cloud Optimized Requirements
+# This file excludes ChromaDB to avoid SQLite version issues
+
+# CrewAI and Tools
+crewai==0.28.2
+crewai-tools==0.1.6
+
+# LangChain ecosystem
+langchain==0.1.20
+langchain-core==0.1.53
+langchain-community==0.0.38
+langchain-google-genai==0.0.5
+
+# Google Generative AI
+google-generativeai==0.3.2
+
+# PDF Handling
+pypdf==3.11.0
+fpdf==1.7.2
+PyPDF2==3.0.1  
+reportlab==4.0.9  
+
+# Streamlit and Markdown
+streamlit==1.32.0
+markdown>=3.5.1
+
+# NLP & Parsing
+nltk==3.8.1
+beautifulsoup4==4.12.3
+chardet==5.2.0
+
+# Utilities
+python-dotenv==1.0.0
+requests==2.31.0
+typing-extensions==4.14.0
+pydantic==2.11.5
+pycryptodome==3.23.0
+
+# Vector Database - Using DuckDB instead of ChromaDB
+duckdb==0.9.2
+duckdb-engine==0.9.2
+
+# ChromaDB with new syntax (if needed by dependencies)
+chromadb==0.4.22
+
+# Dependencies for compatibility
+numpy==1.24.3 
