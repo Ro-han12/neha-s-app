@@ -11,6 +11,16 @@ import time
 import chardet
 import io
 import sys
+
+# Import deployment helper to setup Python path
+try:
+    from deploy_helper import setup_python_path
+    setup_python_path()
+except ImportError:
+    # If deploy_helper is not available, setup path manually
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from crewai import Crew, Task
 from PyPDF2 import PdfWriter, PdfReader
 from reportlab.lib.pagesizes import letter
@@ -22,17 +32,19 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import re
 
-# Add the parent directory to Python path to make packages importable
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Import custom modules
-from Blog.agents import BlogAgents
-from whitepaper.main import ResearchConverter
-from whitepaper.tools import ResearchTools
-from whitepaper.agents import ResearchAgents
-from whitepaper.tasks import ResearchTasks
-from whitepaper.crews import ResearchCrews
-from whitepaper.exporters import ContentExporters
+# Import custom modules with error handling
+try:
+    from Blog.agents import BlogAgents
+    from whitepaper.main import ResearchConverter
+    from whitepaper.tools import ResearchTools
+    from whitepaper.agents import ResearchAgents
+    from whitepaper.tasks import ResearchTasks
+    from whitepaper.crews import ResearchCrews
+    from whitepaper.exporters import ContentExporters
+except ImportError as e:
+    st.error(f"Failed to import required modules: {str(e)}")
+    st.error("Please ensure all required packages are installed and the module structure is correct.")
+    st.stop()
 
 # Load environment variables
 load_dotenv()
