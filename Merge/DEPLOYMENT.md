@@ -23,7 +23,7 @@ Your app is now configured to work on Streamlit Cloud. Here's what's been fixed:
    - Go to [share.streamlit.io](https://share.streamlit.io)
    - Connect your repository
    - Set **Main file path** to: `Merge/app.py`
-   - Set **Requirements file** to: `Merge/requirements-streamlit.txt`
+   - **Requirements file**: Streamlit Cloud will automatically use `requirements.txt` from your repository root
 
 3. **Add environment variables in Streamlit Cloud:**
    ```
@@ -35,19 +35,21 @@ Your app is now configured to work on Streamlit Cloud. Here's what's been fixed:
 
 ### 📁 **File Structure:**
 ```
-Merge/
-├── __init__.py                    # ✅ Package configuration
-├── app.py                         # ✅ Main Streamlit app (simplified ChromaDB config)
-├── requirements-streamlit.txt     # ✅ Streamlit-optimized dependencies
-├── deploy_to_streamlit.py        # ✅ Deployment helper
-├── test_chromadb_fix.py          # ✅ ChromaDB test script (simplified)
-├── Blog/
-│   ├── __init__.py               # ✅ Package exports
-│   └── agents.py
-└── whitepaper/
-    ├── __init__.py               # ✅ Package exports
-    ├── main.py
-    └── ...
+neha-s-app/
+├── requirements.txt               # ✅ Streamlit-optimized dependencies (repository root)
+└── Merge/
+    ├── __init__.py                # ✅ Package configuration
+    ├── app.py                     # ✅ Main Streamlit app (simplified ChromaDB config)
+    ├── requirements-streamlit.txt # ✅ Backup requirements file
+    ├── deploy_to_streamlit.py    # ✅ Deployment helper
+    ├── test_chromadb_fix.py      # ✅ ChromaDB test script (simplified)
+    ├── Blog/
+    │   ├── __init__.py           # ✅ Package exports
+    │   └── agents.py
+    └── whitepaper/
+        ├── __init__.py           # ✅ Package exports
+        ├── main.py
+        └── ...
 ```
 
 ### 🧪 **Testing Results:**
@@ -73,9 +75,9 @@ Merge/
 ### 📋 **Deployment Checklist:**
 
 - [ ] Code pushed to GitHub
+- [ ] `requirements.txt` is in repository root (copied from `Merge/requirements-streamlit.txt`)
 - [ ] Streamlit Cloud repository connected
 - [ ] Main file path set to `Merge/app.py`
-- [ ] Requirements file set to `Merge/requirements-streamlit.txt`
 - [ ] `GOOGLE_API_KEY` environment variable set
 - [ ] `CHROMA_DB_IMPL=duckdb` environment variable set
 - [ ] Local tests pass (`python test_chromadb_fix.py`)

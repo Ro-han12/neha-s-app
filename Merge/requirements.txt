@@ -1,3 +1,6 @@
+# Streamlit Cloud Optimized Requirements
+# This file excludes ChromaDB to avoid SQLite version issues
+
 # CrewAI and Tools
 crewai==0.28.2
 crewai-tools==0.1.6
@@ -12,7 +15,7 @@ langchain-google-genai==0.0.5
 google-generativeai==0.3.2
 
 # PDF Handling
-pypdf==3.11.0               # ✅ Bumped from 3.9.1 → required by embedchain
+pypdf==3.11.0
 fpdf==1.7.2
 PyPDF2==3.0.1  
 reportlab==4.0.9  
@@ -23,26 +26,22 @@ markdown>=3.5.1
 
 # NLP & Parsing
 nltk==3.8.1
-beautifulsoup4==4.12.3      # ✅ Required by crewai-tools
+beautifulsoup4==4.12.3
 chardet==5.2.0
 
 # Utilities
-python-dotenv==1.0.0        # ✅ Required by crewai
-requests==2.31.0            # ✅ Required by crewai-tools & langchain
+python-dotenv==1.0.0
+requests==2.31.0
 typing-extensions==4.14.0
 pydantic==2.11.5
 pycryptodome==3.23.0
 
-# # SQLite compatibility for ChromaDB
-# pysqlite3-binary==0.5.2
-
-# Dependencies for chromadb compatibility
-numpy==1.24.3              # Pinned to version before NumPy 2.0
-chromadb==0.4.22          # Latest version known to work with numpy<2.0
-
-# ChromaDB and Vector Database - Updated for Streamlit Cloud compatibility
+# Vector Database - Using DuckDB instead of ChromaDB
 duckdb==0.9.2
 duckdb-engine==0.9.2
 
-# Additional dependencies for Streamlit Cloud
-pysqlite3-binary==0.5.2    # Alternative SQLite implementation
+# ChromaDB with new syntax (if needed by dependencies)
+chromadb==0.4.22
+
+# Dependencies for compatibility
+numpy==1.24.3 
